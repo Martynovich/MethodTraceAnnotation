@@ -1,16 +1,14 @@
 package com.andersen;
 
-import net.sf.cglib.proxy.InvocationHandler;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.sf.cglib.proxy.MethodInterceptor;import net.sf.cglib.proxy.MethodProxy;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
 
 import java.lang.reflect.Method;
 
-public class TraceInvocationHandler implements MethodInterceptor {
+class TraceInvocationHandler implements MethodInterceptor {
 
-    Logger logger = Logger.getLogger(TraceInvocationHandler.class);
+    private Logger logger = Logger.getLogger(TraceInvocationHandler.class);
 
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
         if (!method.isAnnotationPresent(MethodTrace.class)) {
@@ -18,8 +16,8 @@ public class TraceInvocationHandler implements MethodInterceptor {
         }
         MethodTrace annotation = method.getAnnotation(MethodTrace.class);
         Level logLevel = org.apache.log4j.Level.toLevel(annotation.level().name());
-        for (int i = 0 ; i < objects.length ; i++) {
-            logger.log(logLevel, "Method argument - " + objects[i].toString());
+        for (Object object : objects) {
+            logger.log(logLevel, "Method argument - " + object.toString());
         }
         long startInvoke = System.currentTimeMillis();
         Object invokeResult = methodProxy.invokeSuper(o, objects);
