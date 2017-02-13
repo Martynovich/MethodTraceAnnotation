@@ -1,18 +1,19 @@
 package com.andersen;
 
-class AnnotatedClass {
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
-    @MethodTrace(level = Level.INFO)
-    String annotatedMethod(String string, int num) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+@Component
+public class AnnotatedClass {
+
+    private Logger logger = Logger.getLogger(AnnotatedClass.class);
+
+    @MethodTrace(level = Level.ERROR)
+    public String annotatedMethod(String string, int num) {
         return "I am annotated method. Result - " + string + " " + num;
     }
 
-    public void notAnnotetedMethod(int i, String s) {
-        System.out.println("Hello, I am not annotated method.");
+    public void notAnnotatedMethod(int i, String s) {
+        logger.info("Hello, I am not annotated method - " + i + " " + s);
     }
 }
