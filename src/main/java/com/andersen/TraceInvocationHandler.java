@@ -6,7 +6,7 @@ import org.apache.log4j.Level;
 
 import java.lang.reflect.Method;
 
-class TraceInvocationHandler implements MethodInterceptor {
+public class TraceInvocationHandler implements MethodInterceptor {
 
     private Logger logger = Logger.getLogger(TraceInvocationHandler.class);
 
